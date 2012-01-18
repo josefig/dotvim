@@ -148,6 +148,9 @@ nmap <leader>sa :SessionSaveAs<CR>
 " This is required by textobj-rubyblock.
 runtime macros/matchit.vim
 
+" Gundo
+nnoremap <F5> :GundoToggle<CR>
+
 " CtrlP
 let g:ctrlp_map = '<leader>t'
 let g:ctrlp_working_path_mode = 2
