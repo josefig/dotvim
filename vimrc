@@ -63,7 +63,7 @@ if has("autocmd")
   autocmd BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
   " Change statusline color in insert mode
-  autocmd InsertEnter * highlight StatusLine ctermfg=2 ctermbg=2
+  autocmd InsertEnter * highlight StatusLine ctermfg=2 ctermbg=darkgrey
   autocmd InsertLeave * highlight StatusLine ctermfg=4 ctermbg=7
 
   " Change statusline color of active window
@@ -190,3 +190,12 @@ endfunction
 " Use Node.js for JavaScript Interpretation 
 " Please refer https://github.com/hallettj/jslint.vim/issues/13 
 let $JS_CMD='node'
+
+" Console color change for Mac OS X
+if has("unix")
+  let s:uname = system("uname")
+    if s:uname == "Darwin\n"
+    set t_Co=256 
+          " Do Mac stuff here
+    endif
+endif
