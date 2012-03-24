@@ -17,11 +17,11 @@ syntax on
 
 " Deal with tabs and indentation nicely
 filetype plugin indent on
-set tabstop=2       " spaces a tab takes up
-set smarttab        " smart tabbing for autoindent
-set shiftwidth=2    " spaces to use when using spaces for tabs
-set expandtab       " expand tabs into spaces
-set autoindent      " autoindenting on
+"set tabstop=2       " spaces a tab takes up
+"set smarttab        " smart tabbing for autoindent
+"set shiftwidth=2    " spaces to use when using spaces for tabs
+"set expandtab       " expand tabs into spaces
+"set autoindent      " autoindenting on
 
 " Search
 set hlsearch        " highlight matches
