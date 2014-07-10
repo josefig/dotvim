@@ -5,7 +5,7 @@ set nocompatible
 filetype off
 
 " Package bundling using pathogen
-call pathogen#runtime_append_all_bundles()
+call pathogen#incubate()
 call pathogen#helptags()
 
 " Specify a color scheme
@@ -30,11 +30,19 @@ set ignorecase      " case insensitive search
 set smartcase       " case insensitive when lower case, else case sensitive
 
 " Line numbers
-set number
+if version >= 703
+  set rnu
+else
+  set nu
+endif
 
 " Formatting
-" -r
-set formatprg=par\ -re
+set textwidth=78    " wrap using text width
+set wrapmargin=0    " don't wrap using distance from right margin
+
+" Invisible characters
+set list
+set listchars=tab:→\ ,trail:·
 
 " Ignore files
 set wildignore+=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.gif,*.xpm
@@ -58,10 +66,11 @@ set noswapfile
 
 if has("autocmd")
   " au is short for autocmd
-  
+
   " Restore cursor position
   autocmd BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
+<<<<<<< HEAD
   " Change statusline color in insert mode
   autocmd InsertEnter * highlight StatusLine ctermfg=2 ctermbg=darkgrey
   autocmd InsertLeave * highlight StatusLine ctermfg=4 ctermbg=7
@@ -69,8 +78,14 @@ if has("autocmd")
   " Change statusline color of active window
   autocmd VimEnter * highlight StatusLine term=reverse ctermfg=4 ctermbg=7 gui=bold,reverse
 
+=======
+>>>>>>> fc3855dd6175895c98c36f87a66cd1c8a6653648
   " Set warning of over column 80
-  autocmd BufWinEnter * let w:m1=matchadd('Error', '\%>80v.\+', -1)
+  if exists('+colorcolumn')
+    set colorcolumn=81
+  else
+    autocmd BufWinEnter * let w:m1=matchadd('Error', '\%>80v.\+', -1)
+  endif
 
   " If files have changed outside of Vim, update NERDTree and CommandT when
   " Vim gains focus.
@@ -86,6 +101,7 @@ if has("autocmd")
 
   " Filetypes
   autocmd FileType javascript setlocal ts=2 sts=2 sw=2
+  autocmd FileType html,slim setlocal tw=0
   autocmd FileType helpfile setlocal nonumber      " no line numbers when viewing help
   autocmd FileType helpfile nnoremap <buffer><cr> <c-]>   " Enter selects subject
   autocmd FileType helpfile nnoremap <buffer><bs> <c-T>   " Backspace to go back
@@ -95,11 +111,14 @@ endif
 let mapleader = ","
 
 " DelimitMate
-let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 let delimitMate_balance_matchpairs = 1
 " DelimitMate override of SnipMate's S-Tab
 imap <S-Tab> <Plug>delimitMateS-Tab
+
+" Enable the matchit plugin for selecting blocks.
+" This is required by textobj-rubyblock.
+runtime macros/matchit.vim
 
 "
 " MAPPINGS
@@ -132,6 +151,17 @@ map <C-k> <C-w>k
 map <C-j> <C-w>j
 map <C-l> <C-w>l
 
+" Center search results
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+nnoremap <silent> g# g#zz
+
+" Force saving files that require root permission
+cmap w!! %!sudo tee > /dev/null %
+
 " Bubble single lines (uses unimpaired)
 nmap <C-Up> [e
 nmap <C-Down> ]e
@@ -144,40 +174,58 @@ nmap <leader>s :SessionList<CR>
 nmap <leader>ss :SessionSave<CR>
 nmap <leader>sa :SessionSaveAs<CR>
 
-" Enable the matchit plugin for selecting blocks.
-" This is required by textobj-rubyblock.
-runtime macros/matchit.vim
-
 " Gundo
 nnoremap <F5> :GundoToggle<CR>
 
 " CtrlP
 let g:ctrlp_map = '<leader>t'
-let g:ctrlp_working_path_mode = 2
+" Don't dynamically change the working path. Set it to where Vim started.
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files']
+let g:ctrlp_user_command = ['.hg/', 'hg --cwd %s locate -I .']
+
+" TagBar
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_type_coffee = {
+      \'ctagstype': 'coffee',
+      \'kinds': [
+      \ 'c:class',
+      \ 'f:functions',
+      \ 'v:variables'
+      \]
+      \}
+
+" NOTE: After upgrading node.js to 0.6.2, the following is not needed. Leaving
+" in for now in case Mac needs it.
+" Use Node.js for JavaScript Interpretation 
+" Please refer https://github.com/hallettj/jslint.vim/issues/13 
+let $JS_CMD='node'
 
 "
 " Functions
 "
 
 " Update NERDTree.
-function s:UpdateNERDTree(...)
-  let stay = 0
+if !exists("*s:UpdateNERDTree")
+  function s:UpdateNERDTree(...)
+    let stay = 0
 
-  if(exists("a:1"))
-    let stay = a:1
-  end
+    if(exists("a:1"))
+      let stay = a:1
+    end
 
-  if exists("t:NERDTreeBufName")
-    let nr = bufwinnr(t:NERDTreeBufName)
-    if nr != -1
-      exe nr . "wincmd w"
-      exe substitute(mapcheck("R"), "<CR>", "", "")
-      if !stay
-        wincmd p
-      end
+    if exists("t:NERDTreeBufName")
+      let nr = bufwinnr(t:NERDTreeBufName)
+      if nr != -1
+        exe nr . "wincmd w"
+        exe substitute(mapcheck("R"), "<CR>", "", "")
+        if !stay
+          wincmd p
+        end
+      endif
     endif
-  endif
-endfunction
+  endfunction
+endif
 
 " NOTE: CommandT is no longer used. Leaving for historical purposes.
 " Update CommandT.
