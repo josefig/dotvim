@@ -5,7 +5,6 @@ set nocompatible
 filetype off
 
 " Package bundling using pathogen
-call pathogen#incubate()
 call pathogen#helptags()
 
 " Specify a color scheme
@@ -70,16 +69,6 @@ if has("autocmd")
   " Restore cursor position
   autocmd BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
-<<<<<<< HEAD
-  " Change statusline color in insert mode
-  autocmd InsertEnter * highlight StatusLine ctermfg=2 ctermbg=darkgrey
-  autocmd InsertLeave * highlight StatusLine ctermfg=4 ctermbg=7
-
-  " Change statusline color of active window
-  autocmd VimEnter * highlight StatusLine term=reverse ctermfg=4 ctermbg=7 gui=bold,reverse
-
-=======
->>>>>>> fc3855dd6175895c98c36f87a66cd1c8a6653648
   " Set warning of over column 80
   if exists('+colorcolumn')
     set colorcolumn=81
