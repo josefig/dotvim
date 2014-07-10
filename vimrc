@@ -5,6 +5,7 @@ set nocompatible
 filetype off
 
 " Package bundling using pathogen
+call pathogen#infect('bundle/{}')
 call pathogen#helptags()
 
 " Specify a color scheme
