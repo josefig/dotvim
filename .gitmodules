@@ -67,9 +67,6 @@
 [submodule "bundle/gundo.vim"]
 	path = bundle/gundo.vim
 	url = http://github.com/sjl/gundo.vim.git
-[submodule "bundle/vim-slim"]
-	path = bundle/vim-slim
-	url = https://github.com/bbommarito/vim-slim.git
 [submodule "bundle/vim-powerline"]
 	path = bundle/vim-powerline
 	url = https://github.com/Lokaltog/vim-powerline.git
