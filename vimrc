@@ -10,14 +10,17 @@ call pathogen#helptags()
 
 " Specify a color scheme
 set background=dark
-colorscheme molokai
+colorscheme vividchalk
+
+" Set font for gui
+set guifont=Monaco:h12
 
 " Turn on highlighting
 syntax on
 
 " Deal with tabs and indentation nicely
 filetype plugin indent on
-"set tabstop=2       " spaces a tab takes up
+set tabstop=2       " spaces a tab takes up
 "set smarttab        " smart tabbing for autoindent
 "set shiftwidth=2    " spaces to use when using spaces for tabs
 "set expandtab       " expand tabs into spaces
