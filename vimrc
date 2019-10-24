@@ -1,3 +1,9 @@
+" UTF-8                                                                   
+" Solution for invalid argument listchars                                 
+" URL: https://stackoverflow.com/questions/18321538/vim-error-e474-invalid    -argument-listchars-tab-trail·
+scriptencoding utf-8                                                      
+set encoding=utf-8  
+
 " Behave in a more useful way
 set nocompatible
 
@@ -13,16 +19,16 @@ set background=dark
 colorscheme vividchalk
 
 " Set font for gui
-set guifont=Monaco:h12
+set guifont=Monaco\ 10
 
 " Turn on highlighting
 syntax on
 
 " Deal with tabs and indentation nicely
-filetype plugin indent on
+" filetype plugin indent on
 set tabstop=2       " spaces a tab takes up
 "set smarttab        " smart tabbing for autoindent
-"set shiftwidth=2    " spaces to use when using spaces for tabs
+"set shiftwidth=4    " spaces to use when using spaces for tabs
 "set expandtab       " expand tabs into spaces
 "set autoindent      " autoindenting on
 
